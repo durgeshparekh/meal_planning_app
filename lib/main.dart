@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'app_routes.dart';
-import 'app_bindings.dart';
+import 'package:get/get.dart'; // Add this import
+import 'screens/home_screen.dart';
 import 'utils/themes.dart';
 
 void main() {
@@ -13,12 +12,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Recipe App',
-      initialRoute: AppRoutes.home,
-      initialBinding: AppBindings(),
-      getPages: AppRoutes.pages,
-      theme: Themes.lightTheme,
+    return GetMaterialApp( // Change MaterialApp to GetMaterialApp
+      title: 'Meal Planning App',
+       theme: Themes.lightTheme,
+      home: HomeScreen(),
     );
   }
 }

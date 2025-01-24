@@ -4,13 +4,22 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Problem Statement
+Create a mobile application using Flutter that helps users discover recipes, plan meals, and manage grocery list. The app will integrate with the Spoonacular Recipe API.
 
-A few resources to get you started if this is your first Flutter project:
+API_KEY: eeb51b87ede548d7b18b0ccef9d845e4
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Core Requirements
+1. Recipe Search & Meal Planning
+Implement recipe search functionality using the Spoonacular API (https://spoonacular.com/food-api/docs#Search-Recipes-Complex)
+Allow users to add recipes to their meal plan
+Allow basic list management (add/remove items)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. Grocery List Generation
+Create a feature to automatically generate grocery lists for the meal plan
+Aggregate ingredient quantities from multiple recipes
+Allow users to mark grocery list items as purchased
+
+Limitations
+User can have only one meal plan at a time
+Grocery list can be local-only, No need to connect to server / database

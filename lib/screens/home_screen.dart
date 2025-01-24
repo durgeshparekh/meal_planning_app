@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
-import '../widgets/recipe_card.dart';
+import 'recipe_details_screen.dart';
 
-class HomeView extends StatelessWidget {
-  final HomeController controller = Get.find();
-
-  HomeView({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.put(HomeController());
+
     return Scaffold(
       appBar: AppBar(title: Text('Recipe Search')),
       body: Column(
@@ -17,12 +17,17 @@ class HomeView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              onChanged: (value) => controller.searchController.value = value,
               decoration: InputDecoration(
                 hintText: 'Search recipes...',
                 border: OutlineInputBorder(),
               ),
-              onSubmitted: (query) => controller.fetchRecipes(query),
             ),
+          ),
+          ElevatedButton(
+            onPressed: () =>
+                controller.fetchRecipes(controller.searchController.value),
+            child: Text('Search'),
           ),
           Expanded(
             child: Obx(() {
@@ -34,7 +39,15 @@ class HomeView extends StatelessWidget {
                 return ListView.builder(
                   itemCount: controller.recipes.length,
                   itemBuilder: (context, index) {
-                    return RecipeCard(recipe: controller.recipes[index]);
+                    final recipe = controller.recipes[index];
+                    return ListTile(
+                      leading:
+                          Image.network(recipe['image'], fit: BoxFit.cover),
+                      title: Text(recipe['title']),
+                      onTap: () {
+                        Get.to(() => RecipeDetailsScreen(recipe: recipe));
+                      },
+                    );
                   },
                 );
               }
