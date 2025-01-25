@@ -37,7 +37,9 @@ temp/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
+.packages
 /build/
+flutter_*.png
 
 # Symbolication related
 app.*.symbols
@@ -49,3 +51,44 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Windows related
+Thumbs.db
+
+# Android related
+android/.gradle/
+android/.idea/
+android/local.properties
+android/app/build/
+
+# iOS related
+ios/Pods/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Runner.xcworkspace/
+ios/Runner.xcodeproj/project.xcworkspace/
+ios/Runner.xcodeproj/xcuserdata/
+ios/Runner.xcodeproj/xcshareddata/
+ios/Flutter/App.framework
+ios/Flutter/engine/
+ios/Flutter/Flutter.podspec
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Web related
+web/.dart_tool/
+web/.packages
+web/build/
+
+# Linux related
+linux/.dart_tool/
+linux/.packages
+linux/build/
+
+# Windows related
+windows/.dart_tool/
+windows/.packages
+windows/build/
+
+# Fuchsia related
+.fuchsia/
