@@ -9,12 +9,15 @@ class SignInForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the login controller
     var controller = Get.find<LoginController>();
+    // Initialize size configuration
     SizeConfig().init(context);
 
     return SingleChildScrollView(
       child: Column(
         children: [
+          // Email input field
           RoundedTextFormField(
             hintText: "Enter your email",
             labelText: "Email",
@@ -29,6 +32,7 @@ class SignInForm extends StatelessWidget {
             },
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.03),
+          // Password input field
           RoundedTextFormField(
             hintText: "Enter your password",
             labelText: "Password",
@@ -43,6 +47,7 @@ class SignInForm extends StatelessWidget {
             },
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.05),
+          // Login button
           InkWell(
             borderRadius: BorderRadius.circular(15),
             onTap: () => controller.userLogin(),

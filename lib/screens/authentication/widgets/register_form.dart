@@ -9,14 +9,18 @@ class RegisterForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the login controller
     var controller = Get.find<LoginController>();
+    // Clear text fields in the controller
     controller.clearTextFields();
+    // Initialize size configuration
     SizeConfig().init(context);
 
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Name input field
           RoundedTextFormField(
             hintText: "Your Name",
             labelText: "Name",
@@ -30,6 +34,7 @@ class RegisterForm extends StatelessWidget {
             },
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.03),
+          // Email input field
           RoundedTextFormField(
             hintText: "Email",
             labelText: "Email",
@@ -44,6 +49,7 @@ class RegisterForm extends StatelessWidget {
             },
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.03),
+          // Password input field
           RoundedTextFormField(
             hintText: "Password",
             labelText: "Password",
@@ -58,6 +64,7 @@ class RegisterForm extends StatelessWidget {
             },
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.03),
+          // Confirm password input field
           RoundedTextFormField(
             hintText: "Confirm Password",
             labelText: "Confirm Password",
@@ -73,6 +80,7 @@ class RegisterForm extends StatelessWidget {
             },
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.05),
+          // Register button
           InkWell(
             borderRadius: BorderRadius.circular(15),
             onTap: () => controller.registerUser(),

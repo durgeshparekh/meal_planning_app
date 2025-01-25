@@ -6,9 +6,6 @@ import 'package:meal_planning_app/screens/authentication/login_screen.dart';
 import 'package:meal_planning_app/utils/box_name.dart';
 import '../data/api/api_client.dart';
 import '../data/api/endpoints.dart';
-import '../screens/meal_plan_screen.dart';
-import '../screens/search_recipes_screen.dart';
-import '../screens/grocery_list_screen.dart';
 
 class HomeController extends GetxController {
   var userName = ''.obs;
@@ -16,12 +13,7 @@ class HomeController extends GetxController {
   var isLoading = false.obs;
   var recipes = [].obs;
   var selectedIndex = 0.obs;
-
-  static const List<Widget> widgetOptions = <Widget>[
-    MealPlanScreen(),
-    SearchRecipesScreen(),
-    GroceryListScreen(),
-  ];
+  var mealsBox = Hive.box(BoxName.mealsBox).obs;
 
   @override
   void onInit() {
@@ -29,6 +21,7 @@ class HomeController extends GetxController {
     fetchUserName();
   }
 
+  // Fetch the username of the logged-in user
   void fetchUserName() {
     var userBox = Hive.box(BoxName.userBox);
     var loggedInUser = userBox.values.firstWhere(
@@ -43,31 +36,33 @@ class HomeController extends GetxController {
     }
   }
 
+  // Fetch recipes based on the search query
   void fetchRecipes(String query) async {
     try {
-      debugPrint('🔍 fetchRecipes called with query: $query'); // Debug print with emoji
+      debugPrint('fetchRecipes called with query: $query');
       isLoading.value = true;
       final data = await ApiClient().get(Endpoints.searchRecipes, params: {
         'query': query,
-        // 'number': 10,
       });
       recipes.value = data['results'];
-      debugPrint('✅ Recipes fetched successfully'); // Debug print with emoji
+      debugPrint('Recipes fetched successfully');
     } catch (e) {
-      debugPrint('❌ Error fetching recipes: $e'); // Debug print with emoji
+      debugPrint('Error fetching recipes: $e');
       Get.snackbar('Error', 'Failed to fetch recipes');
     } finally {
       isLoading.value = false;
-      debugPrint('🔄 isLoading set to false'); // Debug print with emoji
+      debugPrint('isLoading set to false');
     }
   }
 
+  // Handle bottom navigation item tap
   void onItemTapped(int index) {
     selectedIndex.value = index;
   }
 
+  // Logout the user and navigate to the login screen
   void logout() async {
-    debugPrint('🔒 Attempting user logout');
+    debugPrint('Attempting user logout');
     var userBox = Hive.box(BoxName.userBox);
     var loggedInUser = userBox.values.firstWhere(
       (user) => user['isLogin'] == true,
@@ -78,12 +73,17 @@ class HomeController extends GetxController {
       loggedInUser['isLogin'] = false;
       userBox.putAt(
           userBox.values.toList().indexOf(loggedInUser), loggedInUser);
-      debugPrint('✅ User logout successful');
+      debugPrint('User logout successful');
       Fluttertoast.showToast(msg: 'User logout successful');
       Get.offAll(() => const LoginScreen());
     } else {
-      debugPrint('❌ No logged-in user found');
+      debugPrint('No logged-in user found');
     }
   }
 
+  // Delete a meal from the meals box
+  void deleteMeal(int index) {
+    mealsBox.value.deleteAt(index);
+    mealsBox.refresh();
+  }
 }

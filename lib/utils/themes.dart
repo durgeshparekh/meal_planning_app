@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class Themes {
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    primaryColor: const Color(0xFF4CAF50), // Fresh green
-    secondaryHeaderColor: const Color(0xFF8BC34A), // Light green
-    hintColor: const Color(0xFFFF5722), // Warm orange
+    primaryColor: const Color(0xFFF9A825), // Yellow
+    secondaryHeaderColor: const Color(0xFFE91E63), // Pink
+    hintColor: const Color(0xFFF44336), // Red
     scaffoldBackgroundColor: const Color(0xFFF5F5F5), // Light grey
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF4CAF50), // Green app bar
+      backgroundColor: Color(0xFFF9A825), // Yellow app bar
       foregroundColor: Colors.white,
       elevation: 0,
     ),
@@ -31,7 +31,7 @@ class Themes {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFF4CAF50),
+        backgroundColor: const Color(0xFFF9A825), // Yellow
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -48,7 +48,7 @@ class Themes {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: const Color(0xFF4CAF50), width: 2),
+        borderSide: BorderSide(color: const Color(0xFFF9A825), width: 2), // Yellow
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -57,8 +57,8 @@ class Themes {
       labelStyle: TextStyle(color: Colors.grey.shade600),
     ),
     iconTheme: const IconThemeData(
-        // color: Color(0xFF4CAF50), // Default icon color
-        color: Colors.white),
+      color: Color(0xFFF9A825), // Yellow
+    ),
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -72,9 +72,9 @@ class Themes {
 
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    primaryColor: const Color(0xFF4CAF50), // Fresh green
-    secondaryHeaderColor: const Color(0xFF8BC34A), // Light green
-    hintColor: const Color(0xFFFF5722), // Warm orange
+    primaryColor: const Color(0xFFF9A825), // Yellow
+    secondaryHeaderColor: const Color(0xFFE91E63), // Pink
+    hintColor: const Color(0xFFF44336), // Red
     scaffoldBackgroundColor: const Color(0xFF121212), // Dark grey
     appBarTheme: const AppBarTheme(
       backgroundColor: Color(0xFF1F1F1F),
@@ -100,7 +100,7 @@ class Themes {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFF4CAF50),
+        backgroundColor: const Color(0xFFF9A825), // Yellow
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -117,7 +117,7 @@ class Themes {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: const Color(0xFF4CAF50), width: 2),
+        borderSide: BorderSide(color: const Color(0xFFF9A825), width: 2), // Yellow
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -126,7 +126,7 @@ class Themes {
       labelStyle: TextStyle(color: Colors.grey.shade600),
     ),
     iconTheme: const IconThemeData(
-      color: Color(0xFF4CAF50), // Default icon color
+      color: Color(0xFFF9A825), // Yellow
     ),
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(

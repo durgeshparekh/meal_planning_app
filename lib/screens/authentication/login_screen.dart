@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meal_planning_app/controllers/login_controller.dart';
+import 'package:meal_planning_app/utils/image_urls.dart';
 import 'package:meal_planning_app/utils/size_config.dart';
 
 import 'register_screen.dart';
@@ -11,12 +12,15 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Initialize the LoginController
     Get.put(LoginController());
+    // Initialize size configuration
     SizeConfig().init(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
+          // Background decoration
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -54,12 +58,14 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(height: SizeConfig.screenHeight * 0.1),
+                    // App logo
                     SizedBox(
                       width: SizeConfig.screenWidth,
                       height: SizeConfig.screenHeight * 0.1,
-                      // child: Image.asset(logoWithoutBg),
+                      child: Image.asset(logoWithoutBg),
                     ),
                     SizedBox(height: SizeConfig.screenHeight * 0.06),
+                    // Sign in title
                     Text(
                       "Sign In",
                       style: TextStyle(
@@ -68,8 +74,10 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: SizeConfig.screenHeight * 0.08),
+                    // Sign in form
                     const SignInForm(),
                     SizedBox(height: SizeConfig.screenHeight * 0.2),
+                    // Register link
                     GestureDetector(
                       onTap: () {
                         Get.to(() => const RegisterScreen());

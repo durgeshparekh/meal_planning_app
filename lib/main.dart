@@ -23,6 +23,7 @@ void main() {
 
 hiveOpenBox() async {
   await Hive.openBox(BoxName.userBox);
+  await Hive.openBox(BoxName.mealsBox);
 }
 
 class MyApp extends StatelessWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meal_planning_app/screens/authentication/widgets/register_form.dart';
+import 'package:meal_planning_app/utils/image_urls.dart';
 import 'package:meal_planning_app/utils/size_config.dart';
 import 'package:meal_planning_app/utils/themes.dart';
 
@@ -21,6 +22,7 @@ class RegisterScreen extends StatelessWidget {
       ),
       body: Stack(
         children: [
+          // Background decoration
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -31,7 +33,6 @@ class RegisterScreen extends StatelessWidget {
                 color: Themes.lightTheme.primaryColor,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(200),
-                  // topLeft: Radius.circular(50),
                 ),
               ),
             ),
@@ -59,12 +60,14 @@ class RegisterScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      // App logo
                       SizedBox(
                         width: SizeConfig.screenWidth,
                         height: SizeConfig.screenHeight * 0.1,
-                        // child: Image.asset(logoWithoutBg),
+                        child: Image.asset(logoWithoutBg),
                       ),
                       SizedBox(height: SizeConfig.screenHeight * 0.06),
+                      // Register title
                       Text(
                         "Register",
                         style: TextStyle(
@@ -73,6 +76,7 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: SizeConfig.screenHeight * 0.05),
+                      // Register form
                       const RegisterForm(),
                       SizedBox(height: SizeConfig.screenHeight * 0.08),
                     ],

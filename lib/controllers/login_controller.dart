@@ -20,9 +20,10 @@ class LoginController extends GetxController {
   void onInit() {
     super.onInit();
     clearTextFields();
-    debugPrint('🟢 LoginController initialized');
+    debugPrint('LoginController initialized');
   }
 
+  // Clear all text fields
   void clearTextFields() {
     if (nameController.text.isNotEmpty) {
       nameController.clear();
@@ -36,18 +37,17 @@ class LoginController extends GetxController {
     if (passwordController.text.isNotEmpty) {
       passwordController.clear();
     }
-    debugPrint('🧹 Text fields cleared');
+    debugPrint('Text fields cleared');
   }
 
+  // Handle user login
   userLogin() async {
-    debugPrint('🔐 Attempting user login');
+    debugPrint('Attempting user login');
     var userBox = Hive.box(BoxName.userBox);
-    debugPrint(
-        '📦 User box data: ${userBox.toMap()}'); // Added debug print to view user box data
+    debugPrint('User box data: ${userBox.toMap()}');
     if (userBox.isEmpty) {
-      Get.snackbar(
-          'Error', 'No registered users found. Please register first.');
-      debugPrint('❌ No registered users found');
+      Get.snackbar('Error', 'No registered users found. Please register first.');
+      debugPrint('No registered users found');
       return;
     }
 
@@ -58,38 +58,40 @@ class LoginController extends GetxController {
 
     if (storedUser != null &&
         storedUser['password'] == passwordController.text.trim()) {
-      debugPrint('✅ User login successful');
+      debugPrint('User login successful');
       Fluttertoast.showToast(msg: 'Welcome back, ${storedUser['name']}');
       storedUser['isLogin'] = true;
       userBox.putAt(userBox.values.toList().indexOf(storedUser), storedUser);
       Get.offAll(() => const HomeScreen());
     } else {
       Get.snackbar('Error', 'Invalid email or password');
-      debugPrint('❌ Invalid email or password');
+      debugPrint('Invalid email or password');
     }
   }
 
+  // Validate registration fields
   bool validateRegistration() {
-    debugPrint('📝 Validating registration');
+    debugPrint('Validating registration');
     if (nameController.text.isEmpty ||
         emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
         confirmPasswordController.text.isEmpty) {
       Get.snackbar('Error', 'All fields are required');
-      debugPrint('❌ Validation failed: All fields are required');
+      debugPrint('Validation failed: All fields are required');
       return false;
     }
     if (passwordController.text != confirmPasswordController.text) {
       Get.snackbar('Error', 'Passwords do not match');
-      debugPrint('❌ Validation failed: Passwords do not match');
+      debugPrint('Validation failed: Passwords do not match');
       return false;
     }
-    debugPrint('✅ Validation successful');
+    debugPrint('Validation successful');
     return true;
   }
 
+  // Handle user registration
   void registerUser() {
-    debugPrint('🔐 Attempting user registration');
+    debugPrint('Attempting user registration');
     if (validateRegistration()) {
       var userBox = Hive.box(BoxName.userBox);
       var existingUser = userBox.values.firstWhere(
@@ -98,9 +100,8 @@ class LoginController extends GetxController {
       );
 
       if (existingUser != null) {
-        Get.snackbar(
-            'Error', 'Email is already registered. Please use another email.');
-        debugPrint('❌ Registration failed: Email is already registered');
+        Get.snackbar('Error', 'Email is already registered. Please use another email.');
+        debugPrint('Registration failed: Email is already registered');
         return;
       }
 
@@ -112,7 +113,7 @@ class LoginController extends GetxController {
       };
       userBox.add(user);
       Fluttertoast.showToast(msg: 'User registered successfully');
-      debugPrint('✅ User registered successfully');
+      debugPrint('User registered successfully');
       clearTextFields();
       Get.offAll(() => const LoginScreen());
     }
