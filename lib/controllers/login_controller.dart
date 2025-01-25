@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:meal_planning_app/screens/authentication/login_screen.dart';
@@ -41,9 +42,11 @@ class LoginController extends GetxController {
   userLogin() async {
     debugPrint('🔐 Attempting user login');
     var userBox = Hive.box(BoxName.userBox);
-    debugPrint('📦 User box data: ${userBox.toMap()}'); // Added debug print to view user box data
+    debugPrint(
+        '📦 User box data: ${userBox.toMap()}'); // Added debug print to view user box data
     if (userBox.isEmpty) {
-      Get.snackbar('Error', 'No registered users found. Please register first.');
+      Get.snackbar(
+          'Error', 'No registered users found. Please register first.');
       debugPrint('❌ No registered users found');
       return;
     }
@@ -53,32 +56,16 @@ class LoginController extends GetxController {
       orElse: () => null,
     );
 
-    if (storedUser != null && storedUser['password'] == passwordController.text.trim()) {
+    if (storedUser != null &&
+        storedUser['password'] == passwordController.text.trim()) {
       debugPrint('✅ User login successful');
+      Fluttertoast.showToast(msg: 'Welcome back, ${storedUser['name']}');
       storedUser['isLogin'] = true;
       userBox.putAt(userBox.values.toList().indexOf(storedUser), storedUser);
       Get.offAll(() => const HomeScreen());
     } else {
       Get.snackbar('Error', 'Invalid email or password');
       debugPrint('❌ Invalid email or password');
-    }
-  }
-
-  void logout() async {
-    debugPrint('🔒 Attempting user logout');
-    var userBox = Hive.box(BoxName.userBox);
-    var loggedInUser = userBox.values.firstWhere(
-      (user) => user['isLogin'] == true,
-      orElse: () => null,
-    );
-
-    if (loggedInUser != null) {
-      loggedInUser['isLogin'] = false;
-      userBox.putAt(userBox.values.toList().indexOf(loggedInUser), loggedInUser);
-      debugPrint('✅ User logout successful');
-      Get.offAll(() => const LoginScreen());
-    } else {
-      debugPrint('❌ No logged-in user found');
     }
   }
 
@@ -111,7 +98,8 @@ class LoginController extends GetxController {
       );
 
       if (existingUser != null) {
-        Get.snackbar('Error', 'Email is already registered. Please use another email.');
+        Get.snackbar(
+            'Error', 'Email is already registered. Please use another email.');
         debugPrint('❌ Registration failed: Email is already registered');
         return;
       }
@@ -123,11 +111,10 @@ class LoginController extends GetxController {
         'isLogin': false,
       };
       userBox.add(user);
-      Get.snackbar('Success', 'User registered successfully');
+      Fluttertoast.showToast(msg: 'User registered successfully');
       debugPrint('✅ User registered successfully');
       clearTextFields();
-      Get.back();
+      Get.offAll(() => const LoginScreen());
     }
   }
-
 }

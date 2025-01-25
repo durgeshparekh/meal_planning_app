@@ -24,10 +24,9 @@ class LoginScreen extends StatelessWidget {
               height: SizeConfig.screenHeight * 0.35,
               margin: EdgeInsets.only(right: 1),
               decoration: BoxDecoration(
-                color: Colors.indigo.shade300,
+                color: Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(200),
-                  // topLeft: Radius.circular(50),
                 ),
               ),
             ),
@@ -39,10 +38,8 @@ class LoginScreen extends StatelessWidget {
               height: SizeConfig.screenHeight * 0.25,
               margin: EdgeInsets.only(right: 1),
               decoration: BoxDecoration(
-                color: Colors.indigo.shade600,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(200),
-                ),
+                color: Theme.of(context).secondaryHeaderColor,
+                borderRadius: BorderRadius.only(topRight: Radius.circular(200)),
               ),
             ),
           ),

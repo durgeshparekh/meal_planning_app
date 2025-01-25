@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
-import 'recipe_details_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,50 +10,45 @@ class HomeScreen extends StatelessWidget {
     final HomeController controller = Get.put(HomeController());
 
     return Scaffold(
-      appBar: AppBar(title: Text('Recipe Search')),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              onChanged: (value) => controller.searchController.value = value,
-              decoration: InputDecoration(
-                hintText: 'Search recipes...',
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () =>
-                controller.fetchRecipes(controller.searchController.value),
-            child: Text('Search'),
-          ),
-          Expanded(
-            child: Obx(() {
-              if (controller.isLoading.value) {
-                return Center(child: CircularProgressIndicator());
-              } else if (controller.recipes.isEmpty) {
-                return Center(child: Text('No recipes found'));
-              } else {
-                return ListView.builder(
-                  itemCount: controller.recipes.length,
-                  itemBuilder: (context, index) {
-                    final recipe = controller.recipes[index];
-                    return ListTile(
-                      leading:
-                          Image.network(recipe['image'], fit: BoxFit.cover),
-                      title: Text(recipe['title']),
-                      onTap: () {
-                        Get.to(() => RecipeDetailsScreen(recipe: recipe));
-                      },
-                    );
-                  },
-                );
-              }
-            }),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout, color: Colors.black),
+            onPressed: () {
+              // Handle logout logic
+              controller.logout();
+            },
           ),
         ],
       ),
+      body: Obx(() => HomeController.widgetOptions
+          .elementAt(controller.selectedIndex.value)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Handle saving meal planning data
+        },
+        backgroundColor: Theme.of(context).primaryColor,
+        child: Icon(Icons.add, color: Colors.white),
+      ),
+      bottomNavigationBar: Obx(() => BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.create),
+                label: 'Plan',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Search',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.list),
+                label: 'Grocery',
+              ),
+            ],
+            currentIndex: controller.selectedIndex.value,
+            onTap: controller.onItemTapped,
+          )),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meal_planning_app/screens/authentication/widgets/register_form.dart';
 import 'package:meal_planning_app/utils/size_config.dart';
+import 'package:meal_planning_app/utils/themes.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -12,7 +13,7 @@ class RegisterScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Get.back();
           },
@@ -27,7 +28,7 @@ class RegisterScreen extends StatelessWidget {
               height: SizeConfig.screenHeight * 0.35,
               margin: EdgeInsets.only(right: 1),
               decoration: BoxDecoration(
-                color: Colors.indigo.shade300,
+                color: Themes.lightTheme.primaryColor,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(200),
                   // topLeft: Radius.circular(50),
@@ -42,7 +43,7 @@ class RegisterScreen extends StatelessWidget {
               height: SizeConfig.screenHeight * 0.25,
               margin: EdgeInsets.only(right: 1),
               decoration: BoxDecoration(
-                color: Colors.indigo.shade600,
+                color: Themes.lightTheme.secondaryHeaderColor,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(200),
                 ),

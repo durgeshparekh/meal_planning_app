@@ -7,29 +7,13 @@ class GroceryListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GroceryListController controller = Get.put(GroceryListController());
-
     return Scaffold(
-      appBar: AppBar(title: Text('Grocery List')),
-      body: Obx(() {
-        if (controller.groceryList.isEmpty) {
-          return Center(child: Text('No items in the grocery list.'));
-        } else {
-          return ListView.builder(
-            itemCount: controller.groceryList.length,
-            itemBuilder: (context, index) {
-              final item = controller.groceryList[index];
-              return ListTile(
-                title: Text(item),
-                trailing: IconButton(
-                  icon: Icon(Icons.check_circle),
-                  onPressed: () => controller.markAsPurchased(item),
-                ),
-              );
-            },
-          );
-        }
-      }),
+      appBar: AppBar(
+        title: Text('View your grocery list'),
+      ),
+      body: Center(
+        child: Text('Grocery List Screen'),
+      ),
     );
   }
 }
