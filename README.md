@@ -18,15 +18,7 @@ Create a mobile application using Flutter that helps users discover recipes, pla
    - Aggregate ingredient quantities from multiple recipes.
    - Allow users to mark grocery list items as purchased.
 
-### Additional Features
-- Users can select groceries and adjust quantities.
-- Purchased groceries are tracked with an `isPurchased` flag.
-- Users can reset the grocery list.
-- Error handling for null and undefined values with meaningful messages.
 
-### Limitations
-- Users can have only one meal plan at a time.
-- Grocery list can be local-only, no need to connect to a server/database.
 
 ### Installation
 1. Clone the repository:
