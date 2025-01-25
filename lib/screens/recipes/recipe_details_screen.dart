@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:meal_planning_app/controllers/recipe_details_controller.dart';
-import 'package:meal_planning_app/utils/widgets/custom_button.dart'; // Import the controller
+import 'package:meal_planning_app/utils/widgets/custom_button.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
-  final Map<String, dynamic> recipe;
+  final Map<dynamic, dynamic> recipe;
+  final bool shouldFetchRecipes; // Add this line
 
-  const RecipeDetailsScreen({super.key, required this.recipe});
+  const RecipeDetailsScreen({
+    super.key,
+    required this.recipe,
+    this.shouldFetchRecipes = true, // Add this line with default value
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (recipe == null || recipe.isEmpty) {
+    if (recipe.isEmpty) {
       return Scaffold(
         appBar: AppBar(
           title: Text('Recipe Details'),
@@ -28,7 +32,9 @@ class RecipeDetailsScreen extends StatelessWidget {
 
     final RecipeDetailsController controller =
         Get.put(RecipeDetailsController());
-    controller.fetchRecipes();
+    if (shouldFetchRecipes) { // Add this condition
+      controller.fetchRecipes();
+    }
     return Scaffold(
       body: CustomScrollView(
         slivers: [

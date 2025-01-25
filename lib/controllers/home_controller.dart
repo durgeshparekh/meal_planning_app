@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:meal_planning_app/screens/authentication/login_screen.dart';
 import 'package:meal_planning_app/utils/box_name.dart';
-import '../data/api/api_client.dart';
-import '../data/api/endpoints.dart';
 
 class HomeController extends GetxController {
   var userName = ''.obs;
@@ -36,24 +34,6 @@ class HomeController extends GetxController {
     }
   }
 
-  // Fetch recipes based on the search query
-  void fetchRecipes(String query) async {
-    try {
-      debugPrint('fetchRecipes called with query: $query');
-      isLoading.value = true;
-      final data = await ApiClient().get(Endpoints.searchRecipes, params: {
-        'query': query,
-      });
-      recipes.value = data['results'];
-      debugPrint('Recipes fetched successfully');
-    } catch (e) {
-      debugPrint('Error fetching recipes: $e');
-      Get.snackbar('Error', 'Failed to fetch recipes');
-    } finally {
-      isLoading.value = false;
-      debugPrint('isLoading set to false');
-    }
-  }
 
   // Handle bottom navigation item tap
   void onItemTapped(int index) {

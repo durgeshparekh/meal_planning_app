@@ -35,8 +35,8 @@ class MyApp extends StatelessWidget {
       title: 'Meal Planning App',
       debugShowCheckedModeBanner: false,
       theme: Themes.lightTheme,
-      darkTheme: Themes.darkTheme,
-      themeMode: ThemeMode.system, // Automatically switch between light and dark mode
+      // darkTheme: Themes.darkTheme,
+      // themeMode: ThemeMode.system, // Automatically switch between light and dark mode
       home: appRoute(context),
     );
   }

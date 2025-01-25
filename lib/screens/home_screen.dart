@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                       SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          Get.to(() => SearchRecipesScreen());
+                          Get.to(() => SearchRecipesScreen(shouldFetchRecipes: false)); // Pass shouldFetchRecipes
                         },
                         child: Text('Create your meal'),
                       ),
@@ -77,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                     final meal = mealsBox.getAt(index);
                     return GestureDetector(
                       onTap: () {
-                        Get.to(() => RecipeDetailsScreen(recipe: meal));
+                        Get.to(() => RecipeDetailsScreen(recipe: meal, shouldFetchRecipes: false)); // Pass shouldFetchRecipes
                       },
                       onLongPress: () {
                         // Show dialog to confirm meal deletion
@@ -158,7 +158,7 @@ class HomeScreen extends StatelessWidget {
             : FloatingActionButton(
                 onPressed: () {
                   // Navigate to search recipes screen
-                  Get.to(() => SearchRecipesScreen());
+                  Get.to(() => SearchRecipesScreen(shouldFetchRecipes: false)); // Pass shouldFetchRecipes
                 },
                 backgroundColor: Theme.of(context).primaryColor,
                 child: Icon(Icons.add, color: Colors.white),

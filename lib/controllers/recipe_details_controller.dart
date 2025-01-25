@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -13,10 +12,6 @@ class RecipeDetailsController extends GetxController {
   var recipes = [].obs;
   var isLoading = true.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   // Fetch random recipes from the API
   void fetchRecipes() async {
@@ -66,7 +61,7 @@ class RecipeDetailsController extends GetxController {
   }
 
   // Save a recipe to the Hive box
-  Future<void> saveRecipe(Map<String, dynamic> recipe) async {
+  Future<void> saveRecipe(Map<dynamic, dynamic> recipe) async {
     var box = await Hive.openBox('meals');
     var mealData = {
       'title': recipe['title'],

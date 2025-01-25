@@ -5,7 +5,9 @@ import 'package:meal_planning_app/utils/widgets/rounded_text_form_field.dart';
 import 'package:meal_planning_app/screens/recipes/recipe_details_screen.dart';
 
 class SearchRecipesScreen extends StatelessWidget {
-  const SearchRecipesScreen({super.key});
+  final bool shouldFetchRecipes; // Add this line
+
+  const SearchRecipesScreen({super.key, this.shouldFetchRecipes = true}); // Modify constructor
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class SearchRecipesScreen extends StatelessWidget {
                       final recipe = controller.recipes[index];
                       return GestureDetector(
                         onTap: () {
-                          Get.to(() => RecipeDetailsScreen(recipe: recipe));
+                          Get.to(() => RecipeDetailsScreen(recipe: recipe, shouldFetchRecipes: shouldFetchRecipes)); // Pass shouldFetchRecipes
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(
