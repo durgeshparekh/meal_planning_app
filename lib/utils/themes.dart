@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 class Themes {
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    primaryColor: const Color(0xFFF9A825), // Yellow
-    secondaryHeaderColor: const Color(0xFFE91E63), // Pink
-    hintColor: const Color(0xFFF44336), // Red
-    scaffoldBackgroundColor: const Color(0xFFF5F5F5), // Light grey
+    primaryColor: const Color(0xFF4CAF50), // Green
+    secondaryHeaderColor: const Color(0xFF8BC34A), // Lighter Green
+    hintColor: const Color(0xFF388E3C), // Darker Green
+    scaffoldBackgroundColor: const Color(0xFFF1F8E9), // Very light green
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFFF9A825), // Yellow app bar
+      backgroundColor: Color(0xFF4CAF50), // Green app bar
       foregroundColor: Colors.white,
       elevation: 0,
     ),
     textTheme: TextTheme(
-      displayLarge: TextStyle(
+      displayLarge: const TextStyle(
         fontSize: 32,
         fontWeight: FontWeight.bold,
         color: Colors.black,
       ),
-      bodyLarge: TextStyle(
+      bodyLarge: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.normal,
         color: Colors.black87,
@@ -31,7 +31,7 @@ class Themes {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFFF9A825), // Yellow
+        backgroundColor: const Color(0xFF4CAF50), // Green
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -48,7 +48,8 @@ class Themes {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: const Color(0xFFF9A825), width: 2), // Yellow
+        borderSide:
+            BorderSide(color: const Color(0xFF4CAF50), width: 2), // Green
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -57,7 +58,7 @@ class Themes {
       labelStyle: TextStyle(color: Colors.grey.shade600),
     ),
     iconTheme: const IconThemeData(
-      color: Color(0xFFF9A825), // Yellow
+      color: Color(0xFF4CAF50), // Green
     ),
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(
@@ -72,9 +73,9 @@ class Themes {
 
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    primaryColor: const Color(0xFFF9A825), // Yellow
-    secondaryHeaderColor: const Color(0xFFE91E63), // Pink
-    hintColor: const Color(0xFFF44336), // Red
+    primaryColor: const Color(0xFF4CAF50), // Green
+    secondaryHeaderColor: const Color(0xFF8BC34A), // Lighter Green
+    hintColor: const Color(0xFF388E3C), // Darker Green
     scaffoldBackgroundColor: const Color(0xFF121212), // Dark grey
     appBarTheme: const AppBarTheme(
       backgroundColor: Color(0xFF1F1F1F),
@@ -82,12 +83,12 @@ class Themes {
       elevation: 0,
     ),
     textTheme: TextTheme(
-      displayLarge: TextStyle(
+      displayLarge: const TextStyle(
         fontSize: 32,
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),
-      bodyLarge: TextStyle(
+      bodyLarge: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.normal,
         color: Colors.white70,
@@ -100,7 +101,7 @@ class Themes {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFFF9A825), // Yellow
+        backgroundColor: const Color(0xFF4CAF50), // Green
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -109,7 +110,7 @@ class Themes {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: Colors.white,
+      fillColor: const Color(0xFF2E7D32), // Dark green for dark theme
       contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -117,24 +118,25 @@ class Themes {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: const Color(0xFFF9A825), width: 2), // Yellow
+        borderSide:
+            BorderSide(color: const Color(0xFF4CAF50), width: 2), // Green
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderSide: BorderSide(color: Colors.grey.shade700),
       ),
-      labelStyle: TextStyle(color: Colors.grey.shade600),
+      labelStyle: TextStyle(color: Colors.grey.shade400),
     ),
     iconTheme: const IconThemeData(
-      color: Color(0xFFF9A825), // Yellow
+      color: Color(0xFF4CAF50), // Green
     ),
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
       elevation: 4,
-      color: Colors.white,
-      shadowColor: Colors.grey.shade200,
+      color: const Color(0xFF1E1E1E),
+      shadowColor: Colors.grey.shade800,
     ),
     fontFamily: 'Poppins', // Add Poppins font family
   );
