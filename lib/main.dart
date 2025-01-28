@@ -24,6 +24,7 @@ void main() {
 hiveOpenBox() async {
   await Hive.openBox(BoxName.userBox);
   await Hive.openBox(BoxName.mealsBox);
+  await Hive.openBox(BoxName.groceriesBox);
 }
 
 class MyApp extends StatelessWidget {

@@ -5,14 +5,15 @@ import 'package:meal_planning_app/utils/widgets/rounded_text_form_field.dart';
 import 'package:meal_planning_app/screens/recipes/recipe_details_screen.dart';
 
 class SearchRecipesScreen extends StatelessWidget {
-  final bool shouldFetchRecipes; // Add this line
+  final bool shouldFetchRecipes;
 
-  const SearchRecipesScreen({super.key, this.shouldFetchRecipes = true}); // Modify constructor
+  const SearchRecipesScreen(
+      {super.key, this.shouldFetchRecipes = true});
 
   @override
   Widget build(BuildContext context) {
-    final RecipeDetailsController controller =
-        Get.put(RecipeDetailsController());
+    final RecipeDetailsController controller = Get.put(RecipeDetailsController(
+        showFetchRecipes: shouldFetchRecipes));
 
     return Scaffold(
       appBar: AppBar(
@@ -32,16 +33,43 @@ class SearchRecipesScreen extends StatelessWidget {
               child: RoundedTextFormField(
                 hintText: 'Search Recipes',
                 onChanged: (value) {
-                  controller.searchRecipes(value);
+                  controller.searchRecipesLocally(value); // Search recipes locally
                 },
               ),
             ),
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator()); // Show loading indicator
                 } else if (controller.recipes.isEmpty) {
-                  return Center(child: Text('No recipes found.'));
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.sentiment_dissatisfied,
+                          color: Colors.grey,
+                          size: 80,
+                        ),
+                        SizedBox(height: 20),
+                        Text(
+                          'No recipes found.',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Try searching for another recipe.',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 } else {
                   return GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -55,7 +83,12 @@ class SearchRecipesScreen extends StatelessWidget {
                       final recipe = controller.recipes[index];
                       return GestureDetector(
                         onTap: () {
-                          Get.to(() => RecipeDetailsScreen(recipe: recipe, shouldFetchRecipes: shouldFetchRecipes)); // Pass shouldFetchRecipes
+                          Get.to(
+                            () => RecipeDetailsScreen(
+                              recipe: recipe,
+                              shouldFetchIngridients: true,
+                            ),
+                          ); // Navigate to recipe details screen
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(
