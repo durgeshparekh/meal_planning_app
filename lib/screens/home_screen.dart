@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meal_planning_app/screens/recipes/search_recipes_screen.dart';
-import 'package:meal_planning_app/screens/cart_screen.dart'; // Add import for CartScreen
 import '../controllers/home_controller.dart';
+import 'grocery_list_screen.dart';
 import 'recipes/recipe_details_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,11 +17,12 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          // Cart button
+          // Grocery list button
           IconButton(
             icon: Icon(Icons.shopping_cart, color: Colors.black),
             onPressed: () {
-              Get.to(() => CartScreen());
+              // Navigate to GroceryListScreen
+              Get.to(() => GroceryListScreen());
             },
           ),
           // Logout button
@@ -36,12 +37,13 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           // Display welcome message with user's name
           Obx(() => Text(
                 'Welcome, ${controller.userName}',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               )),
+          SizedBox(height: 10),
           Expanded(
             child: Obx(() {
               var mealsBox = controller.mealsBox.value;
@@ -55,7 +57,9 @@ class HomeScreen extends StatelessWidget {
                       SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          Get.to(() => SearchRecipesScreen(shouldFetchRecipes: false)); // Pass shouldFetchRecipes
+                          Get.to(() => SearchRecipesScreen(
+                              shouldFetchRecipes:
+                                  false)); // Pass shouldFetchRecipes
                         },
                         child: Text('Create your meal'),
                       ),
@@ -77,7 +81,12 @@ class HomeScreen extends StatelessWidget {
                     final meal = mealsBox.getAt(index);
                     return GestureDetector(
                       onTap: () {
-                        Get.to(() => RecipeDetailsScreen(recipe: meal, shouldFetchRecipes: false)); // Pass shouldFetchRecipes
+                        Get.to(
+                          () => RecipeDetailsScreen(
+                            recipe: meal,
+                            shouldFetchIngridients: false,
+                          ),
+                        ); // Pass shouldFetchRecipes
                       },
                       onLongPress: () {
                         // Show dialog to confirm meal deletion
@@ -158,27 +167,14 @@ class HomeScreen extends StatelessWidget {
             : FloatingActionButton(
                 onPressed: () {
                   // Navigate to search recipes screen
-                  Get.to(() => SearchRecipesScreen(shouldFetchRecipes: false)); // Pass shouldFetchRecipes
+                  Get.to(() => SearchRecipesScreen(
+                      shouldFetchRecipes: false)); // Pass shouldFetchRecipes
                 },
                 backgroundColor: Theme.of(context).primaryColor,
                 child: Icon(Icons.add, color: Colors.white),
               );
       }),
       // Removed bottom navigation bar
-    );
-  }
-}
-
-class EmptyScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Empty Screen'),
-      ),
-      body: Center(
-        child: Text('This is an empty screen'),
-      ),
     );
   }
 }

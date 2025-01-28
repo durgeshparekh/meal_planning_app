@@ -1,111 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meal_planning_app/controllers/recipe_details_controller.dart';
-import 'package:meal_planning_app/utils/widgets/custom_button.dart';
+import 'package:hive/hive.dart';
+import 'package:meal_planning_app/screens/grocery_list_screen.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
   final Map<dynamic, dynamic> recipe;
-  final bool shouldFetchRecipes; // Add this line
+  final bool shouldFetchIngridients;
 
   const RecipeDetailsScreen({
     super.key,
     required this.recipe,
-    this.shouldFetchRecipes = true, // Add this line with default value
+    this.shouldFetchIngridients = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (recipe.isEmpty) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Recipe Details'),
-          backgroundColor: Colors.transparent,
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-        body: Center(
-          child: Text('Recipe not found.'),
-        ),
-      );
-    }
-
-    debugPrint('🍲 Recipe: ${recipe['extendedIngredients']}');
-
     final RecipeDetailsController controller =
-        Get.put(RecipeDetailsController());
-    if (shouldFetchRecipes) { // Add this condition
-      controller.fetchRecipes();
+        Get.put(RecipeDetailsController(showFetchRecipes: false));
+
+    debugPrint('RecipeDetailsScreen: ${recipe['id']}, $shouldFetchIngridients');
+
+    if (shouldFetchIngridients) {
+      debugPrint(
+          "Fetching recipe ingredients---: $recipe, id: ${recipe['id']}");
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.fetchRecipeIngridients(recipe['id']);
+      });
+    } else {
+      controller.selectedRecipe.value = recipe;
+      controller.isLoading.value = false;
     }
+
+    List<bool> checkedValues =
+        List<bool>.filled(recipe['ingredients']?.length ?? 0, false);
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            expandedHeight: 300.0,
-            pinned: true,
-            flexibleSpace: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                final double appBarHeight = constraints.biggest.height;
-                final bool isExpanded = appBarHeight > kToolbarHeight + 50;
-
-                return FlexibleSpaceBar(
-                  title: AnimatedOpacity(
-                    opacity: isExpanded ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 300),
-                    child: Container(
-                      color: isExpanded
-                          ? Colors.black.withOpacity(0.5)
-                          : Colors.transparent,
-                      child: Text(
-                        recipe['title'] ?? 'No Title',
-                        style: TextStyle(
-                          color: isExpanded
-                              ? Colors.white
-                              : Colors.black, // Change color based on expansion
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0, // Reduced font size
-                        ),
-                      ),
-                    ),
-                  ),
-                  background: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Image.network(
-                        recipe['image'] ?? '',
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Center(child: Text('Image not available'));
-                        },
-                      ),
-                      Positioned(
-                        top: 16.0,
-                        right: 16.0,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(15),
-                          onTap: () async {
-                            await controller.saveRecipe(recipe);
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 12),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(),
-                              color: Colors.white,
-                            ),
-                            child: Icon(Icons.save, color: Colors.black),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-            backgroundColor:
-                Colors.transparent, // Remove background color from AppBar
-            iconTheme: IconThemeData(color: Colors.black),
-          ),
+          _buildSliverAppBar(),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -113,99 +46,185 @@ class RecipeDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 16.0),
-                  Text(
-                    'Ingredients',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  SizedBox(
-                    height: (recipe['extendedIngredients']?.length ?? 0) *
-                        40.0, // Adjust height dynamically
-                    child: ListView.builder(
-                      physics:
-                          NeverScrollableScrollPhysics(), // Disable scrolling
-                      itemCount: recipe['extendedIngredients']?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        final ingredient = recipe['extendedIngredients'][index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('• ', style: TextStyle(fontSize: 16.0)),
-                              Expanded(
-                                child: Text(
-                                  '${ingredient['name'] ?? 'Unknown'} - ${ingredient['amount'] ?? ''} ${ingredient['unit'] ?? ''}',
-                                  style: TextStyle(fontSize: 16.0),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  _buildIngredientsHeader(controller, checkedValues),
+                  Obx(() {
+                    if (controller.isLoading.value) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (controller.error.value.isNotEmpty) {
+                      return Center(child: Text('Error fetching ingredients'));
+                    } else {
+                      return _buildIngredientsList(controller);
+                    }
+                  }),
                   SizedBox(height: 16.0),
-                  Text(
-                    'Summary',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Container(
-                    padding: const EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                      border: Border.all(
-                        color: Colors.grey, // Add border color
-                        width: 1.0, // Add border width
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(
-                              8.0), // Add padding inside the container
-                          child: Text(
-                            recipe['summary'] ?? 'No summary available',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontStyle: FontStyle.italic,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 8.0),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 16.0),
-                  CustomButton(
-                    text: "Save this Receipe",
-                    press: () async {
-                      await controller.saveRecipe(recipe);
-                    },
-                  ),
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  SliverAppBar _buildSliverAppBar() {
+    return SliverAppBar(
+      expandedHeight: 300.0,
+      pinned: true,
+      flexibleSpace: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          final double appBarHeight = constraints.biggest.height;
+          final bool isExpanded = appBarHeight > kToolbarHeight + 50;
+
+          return FlexibleSpaceBar(
+            title: AnimatedOpacity(
+              opacity: isExpanded ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 300),
+              child: Container(
+                color: isExpanded
+                    ? Colors.black.withOpacity(0.5)
+                    : Colors.transparent,
+                child: Text(
+                  recipe['title'] ?? 'No Title',
+                  style: TextStyle(
+                    color: isExpanded ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+            ),
+            background: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.network(
+                  recipe['image'] ?? '',
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Center(child: Text('Image not available'));
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+      backgroundColor: Colors.transparent,
+      iconTheme: IconThemeData(color: Colors.black),
+    );
+  }
+
+  Row _buildIngredientsHeader(
+      RecipeDetailsController controller, List<bool> checkedValues) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Ingredients',
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        shouldFetchIngridients
+            ? _buildSaveButton(controller)
+            : _buildGroceryListButton(checkedValues),
+      ],
+    );
+  }
+
+  InkWell _buildSaveButton(RecipeDetailsController controller) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(15),
+      onTap: () async {
+        debugPrint('Save recipe: $recipe');
+        debugPrint('ingrideints recipe: ${controller.selectedRecipe}');
+
+        await controller.saveRecipe(recipe);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(),
+          color: Colors.white,
+        ),
+        child: Icon(Icons.save, color: Colors.black),
+      ),
+    );
+  }
+
+  InkWell _buildGroceryListButton(List<bool> checkedValues) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(15),
+      onTap: () {
+        // Navigate to GroceryListScreen
+        Get.to(() => GroceryListScreen());
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(),
+          color: Colors.white,
+        ),
+        child: Text(
+          "Check Grocery List",
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+    );
+  }
+
+  SizedBox _buildIngredientsList(RecipeDetailsController controller) {
+    debugPrint('Building ingredients list: $recipe,');
+    return SizedBox(
+      height: (controller.selectedRecipe['ingredients']?.length ?? 0) * 70.0,
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: controller.selectedRecipe['ingredients']?.length ?? 0,
+        itemBuilder: (context, index) {
+          final ingredient = controller.selectedRecipe['ingredients'][index];
+
+          return Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                Text(
+                  '• ',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(width: 10.0),
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '${ingredient['name'] ?? 'Unknown'}',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text:
+                              ' - ${ingredient['amount'] ?? ''} ${ingredient['unit'] ?? ''}',
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

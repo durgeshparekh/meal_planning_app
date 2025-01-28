@@ -42,7 +42,6 @@ class HomeController extends GetxController {
 
   // Logout the user and navigate to the login screen
   void logout() async {
-    debugPrint('Attempting user logout');
     var userBox = Hive.box(BoxName.userBox);
     var loggedInUser = userBox.values.firstWhere(
       (user) => user['isLogin'] == true,
@@ -50,6 +49,15 @@ class HomeController extends GetxController {
     );
 
     if (loggedInUser != null) {
+      // Delete user's meals and cart data
+      var userId = loggedInUser['id'];
+      var mealsBox = Hive.box(BoxName.mealsBox);
+      var groceriesBox = Hive.box(BoxName.groceriesBox);
+
+      mealsBox.delete(userId);
+      groceriesBox.delete(userId);
+
+      // Logout user
       loggedInUser['isLogin'] = false;
       userBox.putAt(
           userBox.values.toList().indexOf(loggedInUser), loggedInUser);
