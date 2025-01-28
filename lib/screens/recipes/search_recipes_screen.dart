@@ -7,13 +7,12 @@ import 'package:meal_planning_app/screens/recipes/recipe_details_screen.dart';
 class SearchRecipesScreen extends StatelessWidget {
   final bool shouldFetchRecipes;
 
-  const SearchRecipesScreen(
-      {super.key, this.shouldFetchRecipes = true});
+  const SearchRecipesScreen({super.key, this.shouldFetchRecipes = true});
 
   @override
   Widget build(BuildContext context) {
-    final RecipeDetailsController controller = Get.put(RecipeDetailsController(
-        showFetchRecipes: shouldFetchRecipes));
+    final RecipeDetailsController controller =
+        Get.put(RecipeDetailsController(showFetchRecipes: shouldFetchRecipes));
 
     return Scaffold(
       appBar: AppBar(
@@ -33,14 +32,17 @@ class SearchRecipesScreen extends StatelessWidget {
               child: RoundedTextFormField(
                 hintText: 'Search Recipes',
                 onChanged: (value) {
-                  controller.searchRecipesLocally(value); // Search recipes locally
+                  controller
+                      .searchRecipesLocally(value); // Search recipes locally
                 },
               ),
             ),
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
-                  return Center(child: CircularProgressIndicator()); // Show loading indicator
+                  return Center(
+                      child:
+                          CircularProgressIndicator()); // Show loading indicator
                 } else if (controller.recipes.isEmpty) {
                   return Center(
                     child: Column(
@@ -112,7 +114,7 @@ class SearchRecipesScreen extends StatelessWidget {
                                 ),
                                 Positioned.fill(
                                   child: Container(
-                                    color: Colors.black.withOpacity(0.25),
+                                    color: Colors.black.withOpacity(0.2),
                                   ),
                                 ),
                                 Positioned(
@@ -124,6 +126,7 @@ class SearchRecipesScreen extends StatelessWidget {
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
                                       recipe['title'] ?? 'No title',
+                                      maxLines: 3,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,

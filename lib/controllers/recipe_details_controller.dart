@@ -22,7 +22,6 @@ class RecipeDetailsController extends GetxController {
 
   // Fetch random recipes from the API
   void fetchRecipes() async {
-    debugPrint('Fetching recipes');
     error.value = ''; // Clear error before fetching
     var queryParameters = {
       'limitLicense': 'false',
@@ -34,11 +33,10 @@ class RecipeDetailsController extends GetxController {
         .replace(queryParameters: queryParameters);
 
     final response = await http.get(uri);
-    debugPrint("----1--------${response.body}----");
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       recipes.value = data['recipes'];
-      error.value = ''; // Clear error
+      error.value = '';
     } else {
       error.value = 'Failed to fetch recipes'; // Set error message
       Get.snackbar('Error', error.value);
@@ -78,33 +76,40 @@ class RecipeDetailsController extends GetxController {
 
   // Save a recipe to the Hive box
   Future<void> saveRecipe(Map<dynamic, dynamic> recipe) async {
-    debugPrint("recipeeeeee: $recipe");
-    var box = await Hive.openBox('meals');
-    var mealData = {
-      'title': recipe['title'],
-      'image': recipe['image'],
-      'ingredients': selectedRecipe['ingredients']?.map((ingredient) {
-        var name = ingredient['name'];
-        var unit = ingredient['unit'];
-        // Split name and unit if they are combined
-        if (name.contains(':')) {
-          var parts = name.split(':');
-          name = parts[0];
-          unit = parts[1];
-        }
+    try {
+      debugPrint("recipeeeeee: $recipe");
+      var box = await Hive.openBox('meals');
+      var mealData = {
+        'title': recipe['title'],
+        'image': recipe['image'],
+        'ingredients': selectedRecipe['ingredients']?.map((ingredient) {
+          var name = ingredient['name'];
+          var unit = ingredient['unit'];
+          // Split name and unit if they are combined
+          if (name.contains(':')) {
+            var parts = name.split(':');
+            name = parts[0];
+            unit = parts[1];
+          }
+          // Capitalize the first letter of the name
+          name = name[0].toUpperCase() + name.substring(1);
 
-        return {
-          'name': name,
-          'image': ingredient['image'],
-          'amount': ingredient['amount'],
-          'unit': unit,
-          'isPurchased': ingredient['isPurchased'] ?? false,
-        };
-      }).toList(),
-    };
-    await box.add(mealData);
-    Fluttertoast.showToast(msg: "Meal saved successfully");
-    Get.offAll(() => const HomeScreen());
+          return {
+            'name': name,
+            'image': ingredient['image'],
+            'amount': ingredient['amount'],
+            'unit': unit,
+            'isPurchased': ingredient['isPurchased'] ?? false,
+          };
+        }).toList(),
+      };
+      await box.add(mealData);
+      Fluttertoast.showToast(msg: "Meal saved successfully");
+      Get.offAll(() => const HomeScreen());
+    } catch (e) {
+      error.value = 'Failed to save recipe'; // Set error message
+      Get.snackbar('Error', error.value);
+    }
   }
 
   generateRecipe() {}
@@ -121,7 +126,6 @@ class RecipeDetailsController extends GetxController {
 
     try {
       final response = await http.get(uri);
-      debugPrint('Response-----------------: ${response.body}');
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         selectedRecipe.value = data;
@@ -134,6 +138,9 @@ class RecipeDetailsController extends GetxController {
                 name = parts[0];
                 unit = parts[1];
               }
+              // Capitalize the first letter of the name
+              name = name[0].toUpperCase() + name.substring(1);
+
               return {
                 'name': name,
                 'image': ingredient['image'],

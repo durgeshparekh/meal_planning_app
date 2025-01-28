@@ -29,10 +29,11 @@ class GroceryListScreen extends StatelessWidget {
           // Display the grocery list in a scrollable table
           return SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(12.0),
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: DataTable(
+                  columnSpacing: 5.0,
                   columns: [
                     DataColumn(label: Text('Name')),
                     DataColumn(label: Text('Amount')),
@@ -41,11 +42,35 @@ class GroceryListScreen extends StatelessWidget {
                   rows: controller.groceries.map((grocery) {
                     return DataRow(
                       cells: [
-                        DataCell(Text(grocery['name'])),
-                        DataCell(Text('${grocery['amount']} ${grocery['unit']}')),
+                        DataCell(
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            constraints: BoxConstraints(
+                              minHeight: double.infinity,
+                            ),
+                            child: Text(
+                              grocery['name'][0].toUpperCase() +
+                                  grocery['name'].substring(1),
+                              maxLines: null,
+                              overflow:
+                                  TextOverflow.visible, // Make overflow visible
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            constraints: BoxConstraints(
+                              minHeight: double.infinity,
+                            ),
+                            child:
+                                Text('${grocery['amount']} ${grocery['unit']}'),
+                          ),
+                        ),
                         DataCell(
                           Checkbox(
                             value: grocery['isPurchased'],
+                            activeColor: Theme.of(context).secondaryHeaderColor,
                             onChanged: (bool? value) {
                               // Handle checkbox change
                               int index = controller.groceries.indexOf(grocery);

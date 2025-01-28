@@ -168,9 +168,9 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   // Navigate to search recipes screen
                   Get.to(() => SearchRecipesScreen(
-                      shouldFetchRecipes: false)); // Pass shouldFetchRecipes
+                      shouldFetchRecipes: false));
                 },
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: Theme.of(context).secondaryHeaderColor,
                 child: Icon(Icons.add, color: Colors.white),
               );
       }),
