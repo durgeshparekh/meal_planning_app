@@ -46,7 +46,8 @@ class LoginController extends GetxController {
     var userBox = Hive.box(BoxName.userBox);
     debugPrint('User box data: ${userBox.toMap()}');
     if (userBox.isEmpty) {
-      Get.snackbar('Error', 'No registered users found. Please register first.');
+      Get.snackbar(
+          'Error', 'No registered users found. Please register first.');
       debugPrint('No registered users found');
       return;
     }
@@ -62,10 +63,12 @@ class LoginController extends GetxController {
       Fluttertoast.showToast(msg: 'Welcome back, ${storedUser['name']}');
       storedUser['isLogin'] = true;
       userBox.putAt(userBox.values.toList().indexOf(storedUser), storedUser);
+      clearTextFields();
       Get.offAll(() => const HomeScreen());
     } else {
       Get.snackbar('Error', 'Invalid email or password');
       debugPrint('Invalid email or password');
+      clearTextFields();
     }
   }
 
@@ -100,7 +103,8 @@ class LoginController extends GetxController {
       );
 
       if (existingUser != null) {
-        Get.snackbar('Error', 'Email is already registered. Please use another email.');
+        Get.snackbar(
+            'Error', 'Email is already registered. Please use another email.');
         debugPrint('Registration failed: Email is already registered');
         return;
       }

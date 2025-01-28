@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Add this import
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter/services.dart'; // Add this import
 import 'screens/home_screen.dart';
 import 'screens/authentication/login_screen.dart';
 import 'utils/box_name.dart';
@@ -11,6 +12,10 @@ import 'utils/themes.dart';
 void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     await Hive.initFlutter();
 
     await hiveOpenBox();

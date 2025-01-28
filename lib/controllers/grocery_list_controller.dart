@@ -61,7 +61,6 @@ class GroceryListController extends GetxController {
       };
     }).toList();
 
-    // debugPrint('GroceryMap-----: $groceryMap');
   }
 
   void toggleGrocery(int index, bool value) {

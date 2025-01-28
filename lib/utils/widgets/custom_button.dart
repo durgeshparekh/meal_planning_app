@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meal_planning_app/utils/size_config.dart';
+import 'package:meal_planning_app/utils/widgets/size_config.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;

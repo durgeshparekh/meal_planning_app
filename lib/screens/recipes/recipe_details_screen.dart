@@ -21,7 +21,8 @@ class RecipeDetailsScreen extends StatelessWidget {
     debugPrint('RecipeDetailsScreen: ${recipe['id']}, $shouldFetchIngridients');
 
     if (shouldFetchIngridients) {
-      debugPrint("Fetching recipe ingredients---: $recipe, id: ${recipe['id']}");
+      debugPrint(
+          "Fetching recipe ingredients---: $recipe, id: ${recipe['id']}");
       WidgetsBinding.instance.addPostFrameCallback((_) {
         controller.fetchRecipeIngridients(recipe['id']);
       });
@@ -127,7 +128,7 @@ class RecipeDetailsScreen extends StatelessWidget {
         ),
         shouldFetchIngridients
             ? _buildSaveButton(controller)
-            : _buildGroceryListButton(checkedValues),
+            : const SizedBox(),
       ],
     );
   }

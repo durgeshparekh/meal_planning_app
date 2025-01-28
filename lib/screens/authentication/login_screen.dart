@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meal_planning_app/controllers/login_controller.dart';
 import 'package:meal_planning_app/utils/image_urls.dart';
-import 'package:meal_planning_app/utils/size_config.dart';
+import 'package:meal_planning_app/utils/widgets/size_config.dart';
 
 import 'register_screen.dart';
 import 'widgets/sign_in_form.dart';
@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Initialize the LoginController
-    Get.put(LoginController());
+    var controller = Get.put(LoginController());
     // Initialize size configuration
     SizeConfig().init(context);
     return Scaffold(
@@ -80,7 +80,9 @@ class LoginScreen extends StatelessWidget {
                     // Register link
                     GestureDetector(
                       onTap: () {
-                        Get.to(() => const RegisterScreen());
+                        Get.to(() => const RegisterScreen())!.then((value) {
+                          controller.clearTextFields();
+                        });
                       },
                       child: Text(
                         "Not a user? Register here",
