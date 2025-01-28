@@ -34,7 +34,6 @@ class HomeController extends GetxController {
     }
   }
 
-
   // Handle bottom navigation item tap
   void onItemTapped(int index) {
     selectedIndex.value = index;
@@ -72,7 +71,7 @@ class HomeController extends GetxController {
   // Delete a meal from the meals box and groceries box by recipe id
   void deleteMeal(int index) {
     var meal = mealsBox.value.getAt(index);
-    var recipeId = meal['recipeId'];
+    var recipeId = meal['id'];
 
     // Delete meal from meals box
     mealsBox.value.deleteAt(index);
@@ -80,9 +79,17 @@ class HomeController extends GetxController {
 
     // Delete corresponding groceries from groceries box
     var groceriesBox = Hive.box(BoxName.groceriesBox);
-    var groceriesToDelete = groceriesBox.values.where((grocery) => grocery['recipeId'] == recipeId).toList();
-    for (var grocery in groceriesToDelete) {
-      groceriesBox.delete(grocery['recipeId']);
+    debugPrint("recipeId: $recipeId");
+    debugPrint('Groceries Box: ${groceriesBox.values.toList()}');
+    var groceriesToDelete = groceriesBox.values
+        .where((grocery) => grocery['recipeid'] == recipeId)
+        .toList();
+    debugPrint('Groceries to delete: $groceriesToDelete');
+    for (var i = 0; i < groceriesToDelete.length; i++) {
+      groceriesBox.deleteAt(i);
     }
+    // for (var grocery in groceriesToDelete) {
+    //   groceriesBox.delete(grocery['recipeid']);
+    // }
   }
 }

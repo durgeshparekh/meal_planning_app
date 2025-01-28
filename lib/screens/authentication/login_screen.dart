@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Initialize the LoginController
-    Get.put(LoginController());
+    var controller = Get.put(LoginController());
     // Initialize size configuration
     SizeConfig().init(context);
     return Scaffold(
@@ -80,7 +80,9 @@ class LoginScreen extends StatelessWidget {
                     // Register link
                     GestureDetector(
                       onTap: () {
-                        Get.to(() => const RegisterScreen());
+                        Get.to(() => const RegisterScreen())!.then((value) {
+                          controller.clearTextFields();
+                        });
                       },
                       child: Text(
                         "Not a user? Register here",

@@ -29,7 +29,7 @@ class GroceryListController extends GetxController {
     groceryMap.clear();
     for (var grocery in groceries) {
       var name = grocery['name'];
-      var amount = grocery['amount'];
+      var amount = double.tryParse(grocery['amount'].toString()) ?? 0.0;
       var unit = grocery['unit'] ?? '';
       var isPurchased = grocery['isPurchased'] ?? false;
 

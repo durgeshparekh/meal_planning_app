@@ -23,8 +23,8 @@ class GroceryListScreen extends StatelessWidget {
       ),
       body: Obx(() {
         if (controller.groceries.isEmpty) {
-          // Show a loading indicator while groceries are being fetched
-          return Center(child: CircularProgressIndicator());
+          // Show a message if no groceries are found
+          return Center(child: Text('No groceries found 🛒'));
         } else {
           // Display the grocery list in a scrollable table
           return SafeArea(
@@ -33,7 +33,7 @@ class GroceryListScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: DataTable(
-                  columnSpacing: 5.0,
+                  columnSpacing: 30.0,
                   columns: [
                     DataColumn(label: Text('Name')),
                     DataColumn(label: Text('Amount')),
@@ -52,8 +52,7 @@ class GroceryListScreen extends StatelessWidget {
                               grocery['name'][0].toUpperCase() +
                                   grocery['name'].substring(1),
                               maxLines: null,
-                              overflow:
-                                  TextOverflow.visible, // Make overflow visible
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ),

@@ -104,9 +104,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    final meal = mealsBox.getAt(index);
-                                    final recipeId = meal['id'];
-                                    controller.deleteMeal(recipeId);
+                                    controller.deleteMeal(index);
                                     Get.back();
                                   },
                                   child: Text('Delete'),
@@ -167,8 +165,7 @@ class HomeScreen extends StatelessWidget {
             : FloatingActionButton(
                 onPressed: () {
                   // Navigate to search recipes screen
-                  Get.to(() => SearchRecipesScreen(
-                      shouldFetchRecipes: false));
+                  Get.to(() => SearchRecipesScreen(shouldFetchRecipes: false));
                 },
                 backgroundColor: Theme.of(context).secondaryHeaderColor,
                 child: Icon(Icons.add, color: Colors.white),
