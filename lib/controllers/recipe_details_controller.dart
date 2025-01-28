@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:meal_planning_app/data/api/http_urls.dart';
+import 'package:meal_planning_app/api/http_urls.dart';
 import 'package:hive/hive.dart';
 import 'package:meal_planning_app/screens/home_screen.dart';
 

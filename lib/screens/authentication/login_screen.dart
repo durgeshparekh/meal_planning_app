@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meal_planning_app/controllers/login_controller.dart';
 import 'package:meal_planning_app/utils/image_urls.dart';
-import 'package:meal_planning_app/utils/size_config.dart';
+import 'package:meal_planning_app/utils/widgets/size_config.dart';
 
 import 'register_screen.dart';
 import 'widgets/sign_in_form.dart';
