@@ -11,40 +11,54 @@ class GroceryListScreen extends StatelessWidget {
     controller.fetchGroceries();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Grocery List'),
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Grocery List',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Obx(() {
-        if (controller.groceryMap.isEmpty) {
+        if (controller.groceries.isEmpty) {
+          // Show a loading indicator while groceries are being fetched
           return Center(child: CircularProgressIndicator());
         } else {
-          return DataTable(
-            columns: [
-              DataColumn(label: Text('Grocery Name')),
-              DataColumn(label: Text('Amount')),
-              DataColumn(label: Text('Purchased')),
-            ],
-            rows: controller.groceryMap.entries.expand((entry) {
-              debugPrint('Entry: $entry');
-              final groceryName = entry.key;
-              final ingredientsList = entry.value as List<Map<String, dynamic>>;
-              return ingredientsList.map((ingredient) {
-                return DataRow(
-                  cells: [
-                    DataCell(Text(groceryName as String)),
-                    DataCell(
-                        Text('${ingredient['amount']} ${ingredient['unit']}')),
-                    DataCell(
-                      Checkbox(
-                        value: ingredient['purchased'] as bool? ?? false,
-                        onChanged: (bool? value) {
-                          // controller.toggleGrocery(groceryName, ingredient);
-                        },
-                      ),
-                    ),
+          // Display the grocery list in a scrollable table
+          return SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: DataTable(
+                  columns: [
+                    DataColumn(label: Text('Name')),
+                    DataColumn(label: Text('Amount')),
+                    DataColumn(label: Text('Purchased')),
                   ],
-                );
-              }).toList();
-            }).toList(),
+                  rows: controller.groceries.map((grocery) {
+                    return DataRow(
+                      cells: [
+                        DataCell(Text(grocery['name'])),
+                        DataCell(Text('${grocery['amount']} ${grocery['unit']}')),
+                        DataCell(
+                          Checkbox(
+                            value: grocery['isPurchased'],
+                            onChanged: (bool? value) {
+                              // Handle checkbox change
+                              int index = controller.groceries.indexOf(grocery);
+                              controller.toggleGrocery(index, value!);
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
           );
         }
       }),

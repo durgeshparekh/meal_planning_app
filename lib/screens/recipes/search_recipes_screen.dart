@@ -5,15 +5,15 @@ import 'package:meal_planning_app/utils/widgets/rounded_text_form_field.dart';
 import 'package:meal_planning_app/screens/recipes/recipe_details_screen.dart';
 
 class SearchRecipesScreen extends StatelessWidget {
-  final bool shouldFetchRecipes; // Add this line
+  final bool shouldFetchRecipes;
 
   const SearchRecipesScreen(
-      {super.key, this.shouldFetchRecipes = true}); // Modify constructor
+      {super.key, this.shouldFetchRecipes = true});
 
   @override
   Widget build(BuildContext context) {
     final RecipeDetailsController controller = Get.put(RecipeDetailsController(
-        showFetchRecipes: shouldFetchRecipes)); // Pass shouldFetch
+        showFetchRecipes: shouldFetchRecipes));
 
     return Scaffold(
       appBar: AppBar(
@@ -33,14 +33,14 @@ class SearchRecipesScreen extends StatelessWidget {
               child: RoundedTextFormField(
                 hintText: 'Search Recipes',
                 onChanged: (value) {
-                  controller.searchRecipesLocally(value);
+                  controller.searchRecipesLocally(value); // Search recipes locally
                 },
               ),
             ),
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator()); // Show loading indicator
                 } else if (controller.recipes.isEmpty) {
                   return Center(
                     child: Column(
@@ -88,7 +88,7 @@ class SearchRecipesScreen extends StatelessWidget {
                               recipe: recipe,
                               shouldFetchIngridients: true,
                             ),
-                          ); // Pass shouldFetchRecipes
+                          ); // Navigate to recipe details screen
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(

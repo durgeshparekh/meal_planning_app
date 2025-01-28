@@ -84,11 +84,20 @@ class RecipeDetailsController extends GetxController {
       'title': recipe['title'],
       'image': recipe['image'],
       'ingredients': selectedRecipe['ingredients']?.map((ingredient) {
+        var name = ingredient['name'];
+        var unit = ingredient['unit'];
+        // Split name and unit if they are combined
+        if (name.contains(':')) {
+          var parts = name.split(':');
+          name = parts[0];
+          unit = parts[1];
+        }
+
         return {
-          'name': ingredient['name'],
+          'name': name,
           'image': ingredient['image'],
           'amount': ingredient['amount'],
-          'unit': ingredient['unit'],
+          'unit': unit,
           'isPurchased': ingredient['isPurchased'] ?? false,
         };
       }).toList(),
@@ -117,11 +126,19 @@ class RecipeDetailsController extends GetxController {
         var data = json.decode(response.body);
         selectedRecipe.value = data;
         selectedRecipe['ingredients'] = data['ingredients']?.map((ingredient) {
+              var name = ingredient['name'];
+              var unit = ingredient['amount']['metric']['unit'];
+              // Split name and unit if they are combined
+              if (name.contains(':')) {
+                var parts = name.split(':');
+                name = parts[0];
+                unit = parts[1];
+              }
               return {
-                'name': ingredient['name'],
+                'name': name,
                 'image': ingredient['image'],
                 'amount': ingredient['amount']['metric']['value'],
-                'unit': ingredient['amount']['metric']['unit'],
+                'unit': unit,
               };
             }).toList() ??
             [];

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meal_planning_app/controllers/recipe_details_controller.dart';
-import 'package:hive/hive.dart';
 import 'package:meal_planning_app/screens/grocery_list_screen.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
@@ -22,8 +21,7 @@ class RecipeDetailsScreen extends StatelessWidget {
     debugPrint('RecipeDetailsScreen: ${recipe['id']}, $shouldFetchIngridients');
 
     if (shouldFetchIngridients) {
-      debugPrint(
-          "Fetching recipe ingredients---: $recipe, id: ${recipe['id']}");
+      debugPrint("Fetching recipe ingredients---: $recipe, id: ${recipe['id']}");
       WidgetsBinding.instance.addPostFrameCallback((_) {
         controller.fetchRecipeIngridients(recipe['id']);
       });
@@ -66,6 +64,7 @@ class RecipeDetailsScreen extends StatelessWidget {
     );
   }
 
+  // Build the SliverAppBar with a flexible space bar
   SliverAppBar _buildSliverAppBar() {
     return SliverAppBar(
       expandedHeight: 300.0,
@@ -113,6 +112,7 @@ class RecipeDetailsScreen extends StatelessWidget {
     );
   }
 
+  // Build the header for the ingredients section
   Row _buildIngredientsHeader(
       RecipeDetailsController controller, List<bool> checkedValues) {
     return Row(
@@ -132,13 +132,13 @@ class RecipeDetailsScreen extends StatelessWidget {
     );
   }
 
+  // Build the save button
   InkWell _buildSaveButton(RecipeDetailsController controller) {
     return InkWell(
       borderRadius: BorderRadius.circular(15),
       onTap: () async {
         debugPrint('Save recipe: $recipe');
         debugPrint('ingrideints recipe: ${controller.selectedRecipe}');
-
         await controller.saveRecipe(recipe);
       },
       child: Container(
@@ -153,6 +153,7 @@ class RecipeDetailsScreen extends StatelessWidget {
     );
   }
 
+  // Build the grocery list button
   InkWell _buildGroceryListButton(List<bool> checkedValues) {
     return InkWell(
       borderRadius: BorderRadius.circular(15),
@@ -175,6 +176,7 @@ class RecipeDetailsScreen extends StatelessWidget {
     );
   }
 
+  // Build the ingredients list
   SizedBox _buildIngredientsList(RecipeDetailsController controller) {
     debugPrint('Building ingredients list: $recipe,');
     return SizedBox(
