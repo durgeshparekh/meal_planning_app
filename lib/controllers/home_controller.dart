@@ -69,9 +69,20 @@ class HomeController extends GetxController {
     }
   }
 
-  // Delete a meal from the meals box
+  // Delete a meal from the meals box and groceries box by recipe id
   void deleteMeal(int index) {
+    var meal = mealsBox.value.getAt(index);
+    var recipeId = meal['recipeId'];
+
+    // Delete meal from meals box
     mealsBox.value.deleteAt(index);
     mealsBox.refresh();
+
+    // Delete corresponding groceries from groceries box
+    var groceriesBox = Hive.box(BoxName.groceriesBox);
+    var groceriesToDelete = groceriesBox.values.where((grocery) => grocery['recipeId'] == recipeId).toList();
+    for (var grocery in groceriesToDelete) {
+      groceriesBox.delete(grocery['recipeId']);
+    }
   }
 }

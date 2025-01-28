@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:meal_planning_app/api/http_urls.dart';
 import 'package:hive/hive.dart';
 import 'package:meal_planning_app/screens/home_screen.dart';
+import 'package:meal_planning_app/utils/box_name.dart';
 
 class RecipeDetailsController extends GetxController {
   var selectedRecipe = {}.obs;
@@ -78,8 +79,11 @@ class RecipeDetailsController extends GetxController {
   Future<void> saveRecipe(Map<dynamic, dynamic> recipe) async {
     try {
       debugPrint("recipeeeeee: $recipe");
-      var box = await Hive.openBox('meals');
+      var mealsBox = await Hive.openBox(BoxName.mealsBox);
+      var groceryBox = await Hive.openBox(BoxName.groceriesBox);
+
       var mealData = {
+        'id': recipe['id'],
         'title': recipe['title'],
         'image': recipe['image'],
         'ingredients': selectedRecipe['ingredients']?.map((ingredient) {
@@ -99,20 +103,45 @@ class RecipeDetailsController extends GetxController {
             'image': ingredient['image'],
             'amount': ingredient['amount'],
             'unit': unit,
-            'isPurchased': ingredient['isPurchased'] ?? false,
           };
         }).toList(),
       };
-      await box.add(mealData);
+
+      await mealsBox.add(mealData);
+
+      var groceryList = selectedRecipe['ingredients']?.map((ingredient) {
+        var name = ingredient['name'];
+        var unit = ingredient['unit'];
+        // Split name and unit if they are combined
+        if (name.contains(':')) {
+          var parts = name.split(':');
+          name = parts[0];
+          unit = parts[1];
+        }
+        // Capitalize the first letter of the name
+        name = name[0].toUpperCase() + name.substring(1);
+
+        return {
+          'recipeid': recipe['id'],
+          'name': name,
+          'unit': unit,
+          'amount': ingredient['amount'].toString(),
+          'isPurchased': false,
+        };
+      }).toList();
+
+      for (var item in groceryList) {
+        await groceryBox.add(item);
+      }
+
       Fluttertoast.showToast(msg: "Meal saved successfully");
+      
       Get.offAll(() => const HomeScreen());
     } catch (e) {
       error.value = 'Failed to save recipe'; // Set error message
       Get.snackbar('Error', error.value);
     }
   }
-
-  generateRecipe() {}
 
   void fetchRecipeIngridients(int recipeId) async {
     isLoading.value = true;

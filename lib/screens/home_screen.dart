@@ -99,14 +99,14 @@ class HomeScreen extends StatelessWidget {
                                   'Are you sure you want to delete this meal?'),
                               actions: [
                                 TextButton(
-                                  onPressed: () {
-                                    Get.back();
-                                  },
+                                  onPressed: () => Get.back(),
                                   child: Text('Cancel'),
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    controller.deleteMeal(index);
+                                    final meal = mealsBox.getAt(index);
+                                    final recipeId = meal['id'];
+                                    controller.deleteMeal(recipeId);
                                     Get.back();
                                   },
                                   child: Text('Delete'),

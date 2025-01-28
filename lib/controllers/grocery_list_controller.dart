@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:meal_planning_app/utils/box_name.dart';
@@ -5,7 +6,8 @@ import 'package:meal_planning_app/utils/box_name.dart';
 class GroceryListController extends GetxController {
   var groceries = [].obs;
   var checkedValues = <bool>[].obs;
-  var mealsBox = Hive.box(BoxName.mealsBox);
+  // var mealsBox = Hive.box(BoxName.mealsBox);
+  var groceriesBox = Hive.box(BoxName.groceriesBox);
   var groceryMap = <String, Map<String, dynamic>>{};
 
   @override
@@ -15,10 +17,10 @@ class GroceryListController extends GetxController {
   }
 
   void fetchGroceries() {
-    groceries.value = mealsBox.values
-        .map((recipe) => recipe['ingredients'])
-        .expand((ingredients) => ingredients)
-        .toList();
+    // debugprint of groceriesBox
+    debugPrint('Groceries Box: ${Hive.box(BoxName.groceriesBox).values}');
+
+    groceries.value = groceriesBox.values.toList();
 
     // sort grocery list based on same name
     groceries.sort((a, b) => a['name'].compareTo(b['name']));
@@ -38,7 +40,8 @@ class GroceryListController extends GetxController {
         unit = parts[1];
       }
 
-      // var key = '$name:$unit'; // Use name and unit as key
+      // Use name and unit as key
+      // var key = '$name:$unit';
       if (groceryMap.containsKey(name)) {
         groceryMap[name]!['amount'] += amount;
       } else {
