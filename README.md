@@ -18,7 +18,10 @@ Create a mobile application using Flutter that helps users discover recipes, pla
    - Aggregate ingredient quantities from multiple recipes.
    - Allow users to mark grocery list items as purchased.
 
-
+3. **User Authentication & Profile Management**
+   - Implement user authentication (sign up, login, logout).
+   - Allow users to manage their profiles.
+   - Save user preferences and meal plans to their profiles.
 
 ### Installation
 1. Clone the repository:
@@ -44,6 +47,7 @@ Create a mobile application using Flutter that helps users discover recipes, pla
 - Generate a grocery list based on your meal plan.
 - Mark items in your grocery list as purchased.
 - Reset your grocery list when needed.
+- Sign up, log in, and manage your profile.
 
 ### Contributing
 Contributions are welcome! Please open an issue or submit a pull request.
