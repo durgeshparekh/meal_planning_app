@@ -1,6 +1,6 @@
-# meal_planning_app
+# Meal Planning App
 
-A new Flutter project.
+A new Flutter project study purpose anyone can play around with this.
 
 ## Getting Started
 
@@ -14,12 +14,12 @@ Create a mobile application using Flutter that helps users discover recipes, pla
    - Allow basic list management (add/remove items).
 
 2. **Grocery List Generation**
-   - Create a feature to automatically generate grocery lists for the meal plan.
+   - Create a feature to generate grocery lists for the meal plan automatically.
    - Aggregate ingredient quantities from multiple recipes.
    - Allow users to mark grocery list items as purchased.
 
 3. **User Authentication & Profile Management**
-   - Implement user authentication (sign up, login, logout).
+   - Implement user authentication (sign up, log in, logout).
    - Allow users to manage their profiles.
    - Save user preferences and meal plans to their profiles.
 
