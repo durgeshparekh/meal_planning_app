@@ -48,8 +48,7 @@ class Themes {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide:
-            BorderSide(color: const Color(0xFF4CAF50), width: 2), // Green
+        borderSide: BorderSide(color: const Color(0xFF4CAF50), width: 2), // Green
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -60,7 +59,7 @@ class Themes {
     iconTheme: const IconThemeData(
       color: Color(0xFF4CAF50), // Green
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -118,8 +117,7 @@ class Themes {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide:
-            BorderSide(color: const Color(0xFF4CAF50), width: 2), // Green
+        borderSide: BorderSide(color: const Color(0xFF4CAF50), width: 2), // Green
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -130,7 +128,7 @@ class Themes {
     iconTheme: const IconThemeData(
       color: Color(0xFF4CAF50), // Green
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
